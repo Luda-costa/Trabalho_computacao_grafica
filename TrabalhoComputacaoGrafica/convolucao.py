@@ -65,5 +65,5 @@ def convolucao(img_path, kernel):
     return 0
 
 #kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
-#convolucao('templo.jpg', kernel)
+#convolucao('templo1.jpg', kernel)
 #
