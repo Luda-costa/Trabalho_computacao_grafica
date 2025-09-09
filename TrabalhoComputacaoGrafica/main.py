@@ -1,4 +1,5 @@
 import time
+
 import cv2
 import numpy as np
 from convolucao import convolucao
@@ -24,7 +25,9 @@ img = cv2.imread(img_path)
 
 #-------------------------------------------------------------
 
-kernel_emboss = np.array([[-2,-1,0], [-1, 1,1], [ 0, 1,2]])
+kernel_emboss = np.array([[-2,-1,0],
+                          [-1, 1,1],
+                          [ 0, 1,2]])
 
 mostrar_imagens("Kernel emboss", img, img_path, kernel_emboss)
 
@@ -35,44 +38,43 @@ mostrar_imagens("Kernel emboss", img, img_path, kernel_emboss)
 #-------------------------------------------------------------
 
 #motion blur
-montion_blur = np.array([[0,0,1,0,0],
-                [0,0,1,0,0],
-                [0,0,1,0,0],
-                [0,0,1,0,0],
-                [0,0,1,0,0]])
+motion_blur = np.array([
+    [1/5, 0, 0, 0, 0],
+    [0, 1/5, 0, 0, 0],
+    [0, 0, 1/5, 0, 0],
+    [0, 0, 0, 1/5, 0],
+    [0, 0, 0, 0, 1/5]
+])
 
 
-
-mostrar_imagens("Motion_blur", img, img_path, montion_blur)
+mostrar_imagens("Motion_blur", img, img_path, motion_blur)
 
 #-------------------------------------------------------------
 
-#Harris shutter
+#desfoque gaussiano
 
-harris_shutter = np.array([[-0.166666667, 0, 0.166666667],
-                  [-0.166666667, 0, 0.166666667],
-                  [-0.166666667, 0, 0.166666667]])
+desfoque_gaussian = np.array([
+    [1/16, 2/16, 1/16],
+    [2/16, 4/16, 2/16],
+    [1/16, 2/16, 1/16]
+])
 
-
-
-mostrar_imagens("Harris Shutter", img, img_path, harris_shutter)
+mostrar_imagens("Desfoque Gaussian", img, img_path, desfoque_gaussian)
 #-------------------------------------------------------------
 
-#Gradient emboss
+#Emboss diagonal
+emboss_diagonal = np.array([
+    [-1, -1,  0],
+    [-1,  0,  2],
+    [ 0,  2,  2]
+])
 
-gradient_emboss = np.array([[-2, -2, -2, -2, -2],
-[-1, -1, -1, -1, -1],
-[0, 0, 0, 0, 0],
-[1, 1, 1, 1, 1],
-[2, 2, 2, 2, 2]])
-
-
-mostrar_imagens("Gradient Emboss", img, img_path, gradient_emboss)
+mostrar_imagens("Emboss diagonal", img, img_path, emboss_diagonal)
 
 #-------------------------------------------------------------
 #sharpen
 
-sharpen = np.array([[2, 0, 0, 0, -2],
+sharpen = np.array([[-2, 0, 0, 0, -2],
 [0, -1, 0, -1, 0],
 [0, 0, 13, 0, 0],
 [0, -1, 0, -1, 0],

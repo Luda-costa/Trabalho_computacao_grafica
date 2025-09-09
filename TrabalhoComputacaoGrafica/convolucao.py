@@ -19,11 +19,23 @@ def pixel(matrix_img, kernel):
 
     return soma
 
+def kernel_has_float(kernel):
+    for linha in kernel:
+        for numero in linha:
+            if isinstance(numero, (float, np.floating)):
+                return True
+    return False
+
 def convolucao(img_path, kernel):
 
     tempo_inicial = time.time()
 
-    img = np.array(Image.open(img_path).convert('RGB'))
+    kernel_float = kernel_has_float(kernel)
+
+    if kernel_float:
+        img = np.array(Image.open(img_path).convert('RGB')).astype(np.float32) / 255.0
+    else:
+        img = np.array(Image.open(img_path).convert('RGB'))
 
     altura_image = img.shape[0]
     comprimento_image = img.shape[1]
@@ -54,8 +66,11 @@ def convolucao(img_path, kernel):
     tempo_final = time.time()
     tempo_total = str(tempo_final - tempo_inicial)
 
+    if kernel_float:
+        matrix_resultante = (np.clip(matrix_resultante, 0, 1) * 255).astype(np.uint8)
 
     plt.imshow(matrix_resultante)
+
     plt.text(1, 60, tempo_total, fontfamily= 'sans-serif' ,size= 'large' ,color= 'yellow')
 
     plt.title('Imagem Convolucionada')
